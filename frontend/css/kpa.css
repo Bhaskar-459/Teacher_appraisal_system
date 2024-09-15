@@ -1,110 +1,136 @@
-/* General Styling */
+/* kpa.css */
+
+/* General body styling */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f1f3f6;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; /* Light background color */
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
 }
 
-/* Form Container */
+/* Form container styling */
 .form-container {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 700px;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Header */
 h2 {
     text-align: center;
-    font-size: 24px;
-    color: #333;
+    color: #333; /* Dark text color */
     margin-bottom: 20px;
 }
 
 h3 {
-    font-size: 20px;
-    color: #007bff;
+    color: #444; /* Slightly lighter dark text color */
     margin-top: 20px;
-    margin-bottom: 10px;
 }
 
-/* Input Group */
+/* Input group styling */
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
-label {
+.input-group label {
     display: block;
-    font-size: 14px;
-    color: #555;
+    font-weight: bold;
     margin-bottom: 5px;
+    color: #555; /* Medium dark color for labels */
 }
 
-input[type="number"], input[type="text"] {
+.input-group input[type="number"],
+.input-group input[type="text"] {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Light border color */
+    border-radius: 4px;
     font-size: 16px;
-    transition: border-color 0.3s ease-in-out;
 }
 
-input[type="number"]:focus, input[type="text"]:focus {
-    border-color: #007bff;
-    outline: none;
+.input-group input[type="number"]::placeholder,
+.input-group input[type="text"]::placeholder {
+    color: #aaa; /* Light placeholder color */
 }
 
-/* Table Styling */
+/* Button styling */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; /* Primary color */
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker shade of primary color for hover */
+}
+
+/* Table styling */
 .table-container {
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-table th, table td {
-    border: 1px solid #ddd;
+table th,
+table td {
     padding: 10px;
+    border: 1px solid #ddd; /* Light border color */
     text-align: left;
 }
 
 table th {
-    background-color: #f4f4f4;
+    background-color: #f0f0f0; /* Light background for table headers */
+    color: #333; /* Dark text color for headers */
 }
 
-/* Button Styling */
-button {
+table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray for odd rows */
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1; /* Slightly darker gray for hover effect */
+}
+
+button[type="button"] {
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745; /* Success color */
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button[type="button"]:hover {
+    background-color: #218838; /* Darker shade of success color for hover */
+}
+
+button[type="submit"] {
     display: block;
     width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 4px;
+    background-color: #007bff; /* Primary color */
+    color: #fff;
+    padding: 15px;
+    font-size: 18px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    margin-top: 10px;
 }
 
-button:hover {
-    background-color: #0056b3;
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker shade of primary color for hover */
 }
-
-/* Adding Shadows on Hover */
-input[type="number"]:hover, input[type="text"]:hover,
-button:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-

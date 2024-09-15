@@ -4,15 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collaborate</title>
-    <link rel="stylesheet" href="css/collaborate.css">
+    <link rel="stylesheet" href="css/dashboard.css"> <!-- Sidebar styles -->
+    <link rel="stylesheet" href="css/collaborate.css"> <!-- Specific styles for Collaborate -->
 </head>
 <body>
-    <div class="collaborate-container">
-        <h2>Collaborate with Peers</h2>
-        <p>Join discussions and collaborate on research projects.</p>
-        <button id="startCollab">Start Collaboration</button>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="menu-toggle" id="menuToggle">
+                <span>&#9776;</span>
+            </div>
+            <div class="sidebar-menu" id="sidebarMenu">
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="kpa.html">KPA</a></li>
+                    <li><a href="collaborate.html">Collaboration</a></li>
+                    <li><a href="ai-review.html">AI Review</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Collaborate with Peers</h2>
+            <p>Join discussions and collaborate on research projects.</p>
+            <button id="startCollab">Start Collaboration</button>
+        </div>
     </div>
 
-    <script src="js/collaborate.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/collaborate.js"></script> <!-- Specific JS for Collaboration functionality -->
 </body>
 </html>

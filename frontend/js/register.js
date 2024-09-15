@@ -1,3 +1,4 @@
+
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -5,9 +6,11 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const role = document.getElementById('role').value;
+   // access from env file
+    let url = config.API_URL;
 
     try {
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch(`${url}/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,8 +26,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         if (response.ok) {
             alert('Registration successful!');
             // Redirect or take further actions here
-            if (role === 'admin') window.location.href = '/admin';
-            else window.location.href = '/dashboard';
+            if (role === 'admin') window.location.href = '/frontend/admin.html';
+            else window.location.href = '/frontend/dashboard.html';
         } else {
             alert('Registration failed: ' + result.message);
         }
