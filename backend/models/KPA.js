@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Schema for storing KPA-related data
 const kpaSchema = new mongoose.Schema({
     teacherId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    
+
     // KPA 1: Teaching
     teaching: {
         feedback: { type: Number, default: 0 },
@@ -52,10 +52,10 @@ const kpaSchema = new mongoose.Schema({
 
     // KPA 4: Others
     others: {
-        professionalDevelopment: Number,
-        workDiary: Number,
-        punctuality: Number,
-        collaborativeWorking: Number,
+        professionalDevelopment: { type: Number, default: 0 },
+        workDiary: { type: Number, default: 0 },
+        punctuality: { type: Number, default: 0 },
+        collaborativeWorking: { type: Number, default: 0 },
         averageScore: { type: Number }
     },
 
@@ -64,4 +64,3 @@ const kpaSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('KPA', kpaSchema);
-

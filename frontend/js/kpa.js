@@ -1,11 +1,11 @@
-// Handle form submission
 const kpaForm = document.getElementById('kpaForm');
 let url = config.API_URL;
+let teacherId = localStorage.getItem('institutionId');
 if (kpaForm) {
     kpaForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Collecting data from the form
+        // KPA 1: Teaching KPA Data
         const feedback = document.getElementById('feedback').value;
         const availability = document.getElementById('availability').value;
         const mentorship = document.getElementById('mentorship').value;
@@ -13,122 +13,112 @@ if (kpaForm) {
         const syllabus = document.getElementById('syllabus').value;
         const curriculum = document.getElementById('curriculum').value;
         const objectives = document.getElementById('objectives').value;
-        const doi = document.getElementById('doi').value;
 
+        // KPA 2: Professional Development Data
+        const doi = document.getElementById('doi').value;
         const publications = [];
-        document.querySelectorAll('#publicationsTable tbody tr').forEach((row) => {
-            const cells = row.querySelectorAll('td');
-            publications.push({
-                name: cells[1].innerText,
-                theme: cells[2].innerText,
-                page: cells[3].innerText
-            });
+        const publicationsTable = document.querySelectorAll('#publicationsTable tbody tr');
+        publicationsTable.forEach((row) => {
+            const name = row.cells[1].querySelector('input').value;
+            const theme = row.cells[2].querySelector('input').value;
+            const pageNumber = row.cells[3].querySelector('input').value;
+            publications.push({ name, theme, pageNumber });
         });
 
+        // KPA 3: Administrative Support Data (Events and Seminars)
         const events = [];
-        document.querySelectorAll('#eventTable tbody tr').forEach((row) => {
-            const cells = row.querySelectorAll('td');
-            events.push({
-                name: cells[0].innerText,
-                involvement: cells[1].innerText,
-                contribution: cells[2].innerText,
-                duration: cells[3].innerText
-            });
+        const eventRows = document.querySelectorAll('#eventTable tbody tr');
+        eventRows.forEach((row) => {
+            const name = row.cells[0].querySelector('input').value;
+            const involvement = row.cells[1].querySelector('input').value;
+            const contribution = row.cells[2].querySelector('input').value;
+            const duration = row.cells[3].querySelector('input').value;
+            events.push({ name, involvement, contribution, duration });
         });
 
         const seminars = [];
-        document.querySelectorAll('#seminarTable tbody tr').forEach((row) => {
-            const cells = row.querySelectorAll('td');
-            seminars.push({
-                name: cells[0].innerText,
-                theme: cells[1].innerText,
-                type: cells[2].innerText,
-                date: cells[3].innerText
-            });
+        const seminarRows = document.querySelectorAll('#seminarTable tbody tr');
+        seminarRows.forEach((row) => {
+            const name = row.cells[0].querySelector('input').value;
+            const theme = row.cells[1].querySelector('input').value;
+            const type = row.cells[2].querySelector('input').value;
+            const date = row.cells[3].querySelector('input').value;
+            seminars.push({ name, theme, type, date });
         });
 
-        const others = [];
-        document.querySelectorAll('#othersTable tbody tr').forEach((row) => {
-            const cells = row.querySelectorAll('td');
-            others.push({
-                remarks: cells[0].innerText,
-                score: cells[1].innerText
-            });
-        });
+        // KPA 4: Others
+        const professionalDevelopment = document.getElementById('professionalDevelopment').value;
+        const workDiary = document.getElementById('workDiary').value;
+        const punctuality = document.getElementById('punctuality').value;
+        const collaborativeWorking = document.getElementById('collaborativeWorking').value;
 
-        // Send POST request to save KPA data
-        const response = await fetch(`${url}/api/kpa/saveAllKPAs`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+        // Consolidating all data into a single object
+        const kpaData = {
+            teaching: {
+                feedback,
+                availability,
+                mentorship,
+                innovation,
+                syllabus,
+                curriculum,
+                objectives
             },
-            body: JSON.stringify({ 
-                feedback, availability, mentorship, innovation, syllabus, curriculum, objectives,
-                doi, publications, events, seminars, others 
-            })
-        });
+            professionalDevelopment: {
+                doi,
+                publications
+            },
+            administrativeSupport: {
+                events,
+                seminars
+            },
+            others: {
+                professionalDevelopment,
+                workDiary,
+                punctuality,
+                collaborativeWorking
+            }
+        };
 
-        const result = await response.json();
-        if (response.ok) {
-            alert('All KPAs saved successfully!');
-        } else {
-            alert('Error saving KPAs: ' + result.message);
+        try {
+            // Making API request to save all KPA data
+            const response = await fetch(`${url}/api/kpa/saveAllKPAs`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({teacherId,kpaData})
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert('KPA Data Saved Successfully');
+            } else {
+                alert('Error saving KPA data');
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Failed to save KPA data.');
         }
     });
 }
 
-// Add event listeners for dynamic table functionalities
-document.getElementById('fetchPublications')?.addEventListener('click', async () => {
-    const doi = document.getElementById('doi').value;
-    // filling dummy data
-    const publications = [
-        { name: 'Publication 1', theme: 'Theme 1', page: '1-10' },
-        { name: 'Publication 2', theme: 'Theme 2', page: '11-20' },
-        { name: 'Publication 3', theme: 'Theme 3', page: '21-30' },
-    ];
-    const table = document.getElementById('publicationsTable').querySelector('tbody');
-    table.innerHTML = '';
-    publications.forEach((pub) => {
-        const newRow = table.insertRow();
-        newRow.innerHTML = `
-            <td contenteditable="true"></td>
-            <td contenteditable="true">${pub.name}</td>
-            <td contenteditable="true">${pub.theme}</td>
-            <td contenteditable="true">${pub.page}</td>
-        `;
-    });
-
-});
-
-document.getElementById('addEventRow')?.addEventListener('click', () => {
-    const table = document.getElementById('eventTable').querySelector('tbody');
+// Event handler for adding dynamic rows for events and seminars
+document.getElementById('addEventRow').addEventListener('click', function () {
+    const table = document.getElementById('eventTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();
     newRow.innerHTML = `
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
+        <td><input type="text" placeholder="Enter Event Name"></td>
+        <td><input type="text" placeholder="Enter Involvement"></td>
+        <td><input type="text" placeholder="Enter Contribution"></td>
+        <td><input type="text" placeholder="Enter Duration"></td>
     `;
 });
 
-document.getElementById('addSeminarRow')?.addEventListener('click', () => {
-    const table = document.getElementById('seminarTable').querySelector('tbody');
+document.getElementById('addSeminarRow').addEventListener('click', function () {
+    const table = document.getElementById('seminarTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();
     newRow.innerHTML = `
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
+        <td><input type="text" placeholder="Enter Seminar Name"></td>
+        <td><input type="text" placeholder="Enter Theme"></td>
+        <td><input type="text" placeholder="Enter Type"></td>
+        <td><input type="date" placeholder="Enter Date"></td>
     `;
 });
-
-document.getElementById('addOthersRow')?.addEventListener('click', () => {
-    const table = document.getElementById('othersTable').querySelector('tbody');
-    const newRow = table.insertRow();
-    newRow.innerHTML = `
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-    `;
-});
-
-// Add more event listeners for calculations if needed
