@@ -4,6 +4,7 @@ const authRoutes = require('./routes/authRoutes');
 const kpaRoutes = require('./routes/kpaRoutes');
 const collaborateRoutes = require('./routes/collaborateRoutes');
 const aiReviewRoutes = require('./routes/aiReviewRoutes');
+const userRoutes = require('./routes/userRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { dbConnection } = require('./config/db');
@@ -25,6 +26,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/kpa', kpaRoutes);
 app.use('/api/collaborate', collaborateRoutes);
 app.use('/api/ai-review', aiReviewRoutes);
+app.use('/api/users',userRoutes);
 
 // Start server
 app.listen(PORT, () => {
