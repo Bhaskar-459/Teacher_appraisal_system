@@ -1,98 +1,50 @@
 const KPA = require('../models/KPA');
-
-// Save Teaching KPA (KPA 1)
-exports.saveTeachingKPA = async (req, res) => {
-    const { teacherId, feedback, availability, mentorship, innovation, syllabus, curriculum, objectives } = req.body;
-
+const User = require('../models/User');
+exports.saveAllKpas = async (req, res) => {
+    const { teacherId, kpaData } = req.body; 
+    let id = parseInt(teacherId);
+    
     try {
-        const averageScore = (feedback + availability + mentorship + innovation + syllabus + curriculum + objectives) / 7;
-
-        const kpa = await KPA.findOneAndUpdate(
-            { teacherId },
-            { $set: { 
-                teaching: { feedback, availability, mentorship, innovation, syllabus, curriculum, objectives, averageScore }
-            } },
-            { new: true, upsert: true }
-        );
-        res.status(201).json({ message: 'Teaching KPA saved successfully', kpa });
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving Teaching KPA', error });
-    }
-};
-
-// Save Professional Development KPA (KPA 2)
-exports.saveProfessionalDevelopmentKPA = async (req, res) => {
-    const { teacherId, publications } = req.body;
-
-    try {
-        const kpa = await KPA.findOneAndUpdate(
-            { teacherId },
-            { $set: { professionalDevelopment: { publications, score: 9 } } },
-            { new: true, upsert: true }
-        );
-        res.status(201).json({ message: 'Professional Development KPA saved successfully', kpa });
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving Professional Development KPA', error });
-    }
-};
-
-// Save Administrative Support KPA (KPA 3)
-exports.saveAdministrativeSupportKPA = async (req, res) => {
-    const { teacherId, events, seminars } = req.body;
-
-    try {
-        const kpa = await KPA.findOneAndUpdate(
-            { teacherId },
-            { $set: { administrativeSupport: { events, seminars, score: 9.3 } } },
-            { new: true, upsert: true }
-        );
-        res.status(201).json({ message: 'Administrative Support KPA saved successfully', kpa });
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving Administrative Support KPA', error });
-    }
-};
-
-// Save Others KPA (KPA 4)
-exports.saveOthersKPA = async (req, res) => {
-    const { teacherId, professionalDevelopment, workDiary, punctuality, collaborativeWorking } = req.body;
-
-    try {
-        const averageScore = (professionalDevelopment + workDiary + punctuality + collaborativeWorking) / 4;
-
-        const kpa = await KPA.findOneAndUpdate(
-            { teacherId },
-            { $set: { others: { professionalDevelopment, workDiary, punctuality, collaborativeWorking, averageScore } } },
-            { new: true, upsert: true }
-        );
-        res.status(201).json({ message: 'Others KPA saved successfully', kpa });
-    } catch (error) {
-        res.status(500).json({ message: 'Error saving Others KPA', error });
-    }
-};
-
-// Final Score Calculation
-exports.calculateFinalScore = async (req, res) => {
-    const { teacherId } = req.body;
-
-    try {
-        const kpa = await KPA.findOne({ teacherId });
-
-        if (!kpa) {
-            return res.status(404).json({ message: 'KPA not found' });
+        // Find the teacher by their institutionId
+        const teacher = await User.findOne({ institutionId: id });
+        
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found' });
         }
 
-        const { teaching, professionalDevelopment, administrativeSupport, others } = kpa;
-
-        const finalScore = (teaching.averageScore + professionalDevelopment.score + administrativeSupport.score + others.averageScore) / 4;
-
-        kpa.finalScore = finalScore;
+        // Find the KPA data associated with the teacher
+        let kpa = await KPA.findOne({ teacherId: teacher._id });
+        
+        if (!kpa) {
+            // If no KPA exists, create a new one
+            kpa = new KPA({
+                teacherId: teacher._id, // Save the teacher's _id reference
+                teaching: kpaData.teaching,
+                professionalDevelopment: kpaData.professionalDevelopment,
+                administrativeSupport: kpaData.administrativeSupport,
+                others: kpaData.others,
+                finalScore: kpaData.finalScore
+            });
+        } else {
+            // Update the existing KPA data
+            kpa.teaching = kpaData.teaching || kpa.teaching;
+            kpa.professionalDevelopment = kpaData.professionalDevelopment || kpa.professionalDevelopment;
+            kpa.administrativeSupport = kpaData.administrativeSupport || kpa.administrativeSupport;
+            kpa.others = kpaData.others || kpa.others;
+            kpa.finalScore = kpaData.finalScore || kpa.finalScore;
+        }
+        
+        // Save the new or updated KPA data to the database
         await kpa.save();
-
-        res.status(200).json({ message: 'Final score calculated successfully', finalScore });
+        res.status(200).json({ message: 'KPA data saved successfully' });
+        
     } catch (error) {
-        res.status(500).json({ message: 'Error calculating final score', error });
+        console.error('Error saving KPA data:', error);
+        res.status(500).json({ message: 'Error saving KPA data', error });
     }
 };
+
+
 
 // Fetch KPA Data (for reviewing or displaying)
 exports.getKPA = async (req, res) => {
