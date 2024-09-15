@@ -1,5 +1,6 @@
 // Handle form submission
 const kpaForm = document.getElementById('kpaForm');
+let url = config.API_URL;
 if (kpaForm) {
     kpaForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -56,7 +57,7 @@ if (kpaForm) {
         });
 
         // Send POST request to save KPA data
-        const response = await fetch('/api/kpa/saveAllKPAs', {
+        const response = await fetch(`${url}/api/kpa/saveAllKPAs`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,10 +80,24 @@ if (kpaForm) {
 // Add event listeners for dynamic table functionalities
 document.getElementById('fetchPublications')?.addEventListener('click', async () => {
     const doi = document.getElementById('doi').value;
-    // Fetch publications based on DOI (pseudo code)
-    // const response = await fetch(`/api/publications?doi=${doi}`);
-    // const data = await response.json();
-    // Populate publications table
+    // filling dummy data
+    const publications = [
+        { name: 'Publication 1', theme: 'Theme 1', page: '1-10' },
+        { name: 'Publication 2', theme: 'Theme 2', page: '11-20' },
+        { name: 'Publication 3', theme: 'Theme 3', page: '21-30' },
+    ];
+    const table = document.getElementById('publicationsTable').querySelector('tbody');
+    table.innerHTML = '';
+    publications.forEach((pub) => {
+        const newRow = table.insertRow();
+        newRow.innerHTML = `
+            <td contenteditable="true"></td>
+            <td contenteditable="true">${pub.name}</td>
+            <td contenteditable="true">${pub.theme}</td>
+            <td contenteditable="true">${pub.page}</td>
+        `;
+    });
+
 });
 
 document.getElementById('addEventRow')?.addEventListener('click', () => {

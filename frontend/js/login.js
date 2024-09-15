@@ -5,9 +5,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
     const role = document.getElementById('role').value;
     const institutionId = document.getElementById('instituionId').value;
-
+   let url = config.API_URL;
     try {
-        const response = await fetch('/api/auth/login', {
+        const response = await fetch(`${url}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,11 +23,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
         const result = await response.json();
         if (response.ok) {
-            document.getElementById('roleDisplay').style.display = 'block';
-            document.getElementById('role').textContent = result.user.role;
             alert('Login successful!');
-            if (role === 'admin') window.location.href = '/admin';
-            else window.location.href = '/dashboard';
+            if (role === 'admin') window.location.href = '/frontend/admin.html';
+            else window.location.href = '/frontend/dashboard.html';
         } else {
             alert('Login failed: ' + result.message);
         }
