@@ -1,0 +1,81 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right, #36d1dc, #5b86e5);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-container {
+    width: 400px;
+    padding: 30px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #666;
+    text-align: left;
+}
+
+input[type="text"], input[type="password"], select {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #f7f7f7;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    border-color: #5b86e5;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #36d1dc;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #5b86e5;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

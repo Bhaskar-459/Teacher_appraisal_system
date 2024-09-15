@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPA Form</title>
+    <link rel="stylesheet" href="css/kpa.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Key Performance Areas (KPA)</h2>
+        <form id="kpaForm">
+            <!-- KPA 1: Teaching -->
+            <h3>Teaching KPA</h3>
+            <div class="input-group">
+                <label for="feedback">Student Feedback</label>
+                <input type="number" id="feedback" value="85" placeholder="Enter Feedback Score" required>
+            </div>
+
+            <div class="input-group">
+                <label for="availability">Availability</label>
+                <input type="number" id="availability" value="90" placeholder="Enter Availability Score" required>
+            </div>
+
+            <div class="input-group">
+                <label for="mentorship">Mentorship</label>
+                <input type="number" id="mentorship" value="80" placeholder="Enter Mentorship Score" required>
+            </div>
+
+            <div class="input-group">
+                <label for="innovation">Innovation</label>
+                <input type="number" id="innovation" value="95" placeholder="Enter Innovation Score" required>
+            </div>
+
+            <div class="input-group">
+                <label for="syllabus">Syllabus Preparation</label>
+                <input type="number" id="syllabus" value="88" placeholder="Enter Syllabus Score" required>
+            </div>
+
+            <div class="input-group">
+                <label for="curriculum">Curriculum Design</label>
+                <input type="number" id="curriculum" value="92" placeholder="Enter Curriculum Score" required>
+            </div>
+
+            <div class="input-group">
+                <label for="objectives">Course Objectives</label>
+                <input type="number" id="objectives" value="87" placeholder="Enter Objectives Score" required>
+            </div>
+
+            <!-- KPA 2: Professional Development -->
+            <h3>Professional Development KPA</h3>
+            <div class="input-group">
+                <label for="doi">Enter DOI</label>
+                <input type="text" id="doi" placeholder="Enter DOI" required>
+                <button type="button" id="fetchPublications">Fetch Publications</button>
+            </div>
+
+            <div id="publicationsTableContainer" class="table-container">
+                <h4>Publications and Generals</h4>
+                <table id="publicationsTable">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Name of Publication</th>
+                            <th>Theme</th>
+                            <th>Page Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Entries will be added dynamically -->
+                    </tbody>
+                </table>
+                <button type="button" id="calculatePD">Calculate PD Score</button>
+            </div>
+
+            <!-- KPA 3: Administrative Support / Additional Responsibilities -->
+            <h3>Administrative Support KPA</h3>
+            <div class="table-container">
+                <h4>Event Organization</h4>
+                <table id="eventTable">
+                    <thead>
+                        <tr>
+                            <th>Name of Event</th>
+                            <th>Involvement</th>
+                            <th>Contribution</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Entries can be added by the user -->
+                    </tbody>
+                </table>
+                <button type="button" id="addEventRow">Add Event Row</button>
+            </div>
+
+            <div class="table-container">
+                <h4>Seminar Attended</h4>
+                <table id="seminarTable">
+                    <thead>
+                        <tr>
+                            <th>Name of Event</th>
+                            <th>Theme</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Entries can be added by the user -->
+                    </tbody>
+                </table>
+                <button type="button" id="addSeminarRow">Add Seminar Row</button>
+                <button type="button" id="calculateAdminSupport">Calculate Admin Support Score</button>
+            </div>
+
+            <!-- KPA 4: Others -->
+            <h3>Others KPA</h3>
+            <div class="table-container">
+                <table id="othersTable">
+                    <thead>
+                        <tr>
+                            <th>Remarks</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Entries can be added by the user -->
+                    </tbody>
+                </table>
+                <button type="button" id="addOthersRow">Add Remarks Row</button>
+                <button type="button" id="calculateOthers">Calculate Others Score</button>
+            </div>
+
+            <button type="submit">Save All KPAs</button>
+        </form>
+    </div>
+
+    <script src="js/kpa.js"></script>
+</body>
+</html>
