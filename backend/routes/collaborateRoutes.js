@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { collaborate } = require('../controllers/collaborateController');
+const { collaborateController } = require('../controllers/collaborateController');
 
-router.post('/start', collaborate);
+router.post('/start', collaborateController);
 
 module.exports = router;

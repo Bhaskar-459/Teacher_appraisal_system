@@ -4,35 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collaborate</title>
-    <link rel="stylesheet" href="css/dashboard.css"> <!-- Sidebar styles -->
-    <link rel="stylesheet" href="css/collaborate.css"> <!-- Specific styles for Collaborate -->
+    <!-- Sidebar styles -->
+    <link rel="stylesheet" href="css/dashboard.css"> 
+    <!-- Specific styles for Collaborate -->
+    <link rel="stylesheet" href="css/collaborate.css"> 
+    <script src="config.js" defer></script>
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <aside class="sidebar">
             <div class="menu-toggle" id="menuToggle">
                 <span>&#9776;</span>
             </div>
-            <div class="sidebar-menu" id="sidebarMenu">
+            <nav class="sidebar-menu" id="sidebarMenu">
                 <ul>
                     <li><a href="dashboard.html">Dashboard</a></li>
                     <li><a href="kpa.html">KPA</a></li>
-                    <li><a href="collaborate.html">Collaboration</a></li>
+                    <li><a href="collaborate.html" class="active">Collaboration</a></li>
                     <li><a href="ai-review.html">AI Review</a></li>
                 </ul>
-            </div>
-        </div>
+            </nav>
+        </aside>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <h2>Collaborate with Peers</h2>
-            <p>Join discussions and collaborate on research projects.</p>
-            <button id="startCollab">Start Collaboration</button>
-        </div>
+        <main class="main-content">
+            <!-- Top right corner for user info -->
+            <section class="user-info" id="userInfo">
+                <span class="username"></span>
+                <span class="role"></span>
+                <span class="institutionId"></span>
+            </section>
+
+            <section class="collaborate-section">
+                <h2>Collaborate with Peers</h2>
+                <p>Select a teacher to collaborate on a research project:</p>
+
+                <!-- Dropdown for selecting teachers -->
+                <div class="input-group">
+                    <label for="teacherSelect">Available Teachers:</label>
+                    <select id="teacherSelect">
+                        <option value="">Select a teacher</option>
+                        <!-- Teachers will be dynamically loaded here -->
+                    </select>
+                    <button id="sendCollabRequest" class="button">Send Collaboration Request</button>
+                </div>
+            </section>
+
+            <section class="peer-reviews-section">
+                <h3>Pending and Approved Peer Reviews</h3>
+                <table id="peerReviewTable">
+                    <thead>
+                        <tr>
+                            <th>Research Publication</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="peerReviewTableBody">
+                        <!-- Peer review data will be inserted dynamically -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
     </div>
 
-    <script src="js/dashboard.js"></script>
-    <script src="js/collaborate.js"></script> <!-- Specific JS for Collaboration functionality -->
+    <script src="js/dashboard.js" defer></script>
+    <script src="js/collaborate.js" defer></script>
 </body>
 </html>
