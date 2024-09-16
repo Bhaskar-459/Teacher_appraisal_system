@@ -25,6 +25,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         const result = await response.json();
         if (response.ok) {
             alert('Registration successful!');
+            localStorage.setItem('userId', result.user.id);
             // Redirect or take further actions here
             if (role === 'admin') window.location.href = '/frontend/admin.html';
             else window.location.href = '/frontend/dashboard.html';

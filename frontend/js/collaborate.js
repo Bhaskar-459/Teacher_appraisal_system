@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error fetching users:', error);
         }
     }
-
+    let currentTeacheName = localStorage.getItem('username');
     // Populate the teacher dropdown with fetched users
     function populateTeacherDropdown(users) {
         users.forEach(user => {
-            if (user._id !== 'currentTeacherId') {  // Replace with actual current teacher ID
+            if (user.username !== currentTeacheName) {  // Replace with actual current teacher ID
                 const option = document.createElement('option');
                 option.value = user._id;
-                option.text = user.name; // Assuming user object has a 'name' field
+                option.text = user.username; // Assuming user object has a 'name' field
                 teacherSelect.appendChild(option);
             }
         });
@@ -35,10 +35,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             // You can also make a POST request to save the collaboration in the backend here
             // make the post request to the backend
             const topic = document.getElementById('topic').value;
-            const status = 'Pending';
-            const teacherId1 = 'currentTeacherId';  // Replace with actual current teacher ID
+            const teacherId1 = localStorage.getItem('userId');
             const teacherId2 = selectedTeacherId;
-            const data = { teacherId1, teacherId2, topic, status };
+            const data = { teacherId1, teacherId2, topic };
             fetch(`${url}/api/collaborate/start`, {
                 method: 'POST',
                 headers: {

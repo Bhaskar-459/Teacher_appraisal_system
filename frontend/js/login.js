@@ -15,6 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             body: JSON.stringify({ username, password, role, institutionId })
         });
 
+
         // store in local storage
         localStorage.setItem('role', role);
         localStorage.setItem('institutionId', institutionId);
@@ -24,6 +25,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const result = await response.json();
         if (response.ok) {
             alert('Login successful!');
+            // console.log(result);
+            localStorage.setItem('userId', result.user.id);
             if (role === 'admin') window.location.href = '/frontend/admin.html';
             else window.location.href = '/frontend/dashboard.html';
         } else {
