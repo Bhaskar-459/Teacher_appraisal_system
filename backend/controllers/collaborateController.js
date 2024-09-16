@@ -1,4 +1,4 @@
-const Collaborate = require('../controllers/collaborateController');
+const Collaborate = require('../models/Collaborate');
 
 exports.collaborateController = async (req, res) => {
     // get the teacherId1, teacherId2, topic, and status from the request body

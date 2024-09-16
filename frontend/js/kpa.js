@@ -122,3 +122,25 @@ document.getElementById('addSeminarRow').addEventListener('click', function () {
         <td><input type="date" placeholder="Enter Date"></td>
     `;
 });
+
+// on clicking fetch publicatons button , randomly 3 publications are added statically on latest technology themes
+document.getElementById('fetchPublications').addEventListener('click', function () {
+    const table = document.getElementById('publicationsTable').getElementsByTagName('tbody')[0];
+    table.innerHTML = '';
+    const publications = [
+        { sno :1 ,name: 'Publication 1', theme: 'Machine Learning', pageNumber: '10-14' },
+        { sno :2 ,name: 'Publication 2', theme: 'Artificial Intelligence', pageNumber: '15-28' },
+        { sno :3 ,name: 'Publication 3', theme: 'Machine Learning', pageNumber: '22-24' }
+    ];
+    publications.forEach((publication) => {
+        const newRow = table.insertRow();
+        newRow.innerHTML = `
+            <td>${publication.sno}</td>
+            <td>${publication.name}</td>
+            <td>${publication.theme}</td>
+            <td>${publication.pageNumber}</td>
+        `;
+    });
+});
+
+
