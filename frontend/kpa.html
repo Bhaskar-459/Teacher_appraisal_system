@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="main-content">
-            <section class="user-info" id="userInfo"></section>
+            <section class="user-info" id="userInfo">
                 <span class="username"></span>
                 <span class="role"></span>
                 <span class="institutionId"></span>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="input-group">
                         <label for="mentorship">Mentorship</label>
-                        <input type="number" id="mentorship"  placeholder="Enter Mentorship Score" required>
+                        <input type="number" id="mentorship" placeholder="Enter Mentorship Score" required>
                     </div>
                     <div class="input-group">
                         <label for="innovation">Innovation</label>
@@ -63,7 +63,11 @@
                         <label for="objectives">Course Objectives</label>
                         <input type="number" id="objectives" placeholder="Enter Objectives Score" required>
                     </div>
-
+                    <div>
+                        <button id="calculateTeaching">Calculate Teaching Score</button>
+                        <p>Teaching Score: <span id="teachingScore">0</span></p>
+                    </div>
+                    
                     <!-- KPA 2: Professional Development -->
                     <h3>Professional Development KPA</h3>
                     <div class="input-group">
@@ -83,12 +87,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Entries will be added dynamically -->
+                                <!-- Entries will be dynamically added here -->
                             </tbody>
                         </table>
-                        <button type="button" id="calculatePD">Calculate PD Score</button>
                     </div>
-
+                    
+                    <div>
+                        <button id="calculatePD">Calculate PD Score</button>
+                        <p>PD Score: <span id="pdScore">0</span></p>
+                    </div>
                     <!-- KPA 3: Administrative Support -->
                     <h3>Administrative Support KPA</h3>
                     <div class="table-container">
@@ -124,8 +131,12 @@
                             </tbody>
                         </table>
                         <button type="button" id="addSeminarRow">Add Seminar Row</button>
-                        <button type="button" id="calculateAdminSupport">Calculate Admin Support Score</button>
                     </div>
+                    <div>
+                        <button id="calculateAdminSupport">Calculate Administrative Support Score</button>
+                        <p>Administrative Support Score: <span id="adminSupportScore">0</span></p>
+                    </div>
+                    
 
                     <!-- KPA 4: Others -->
                     <h3>Others KPA</h3>
@@ -156,9 +167,13 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <button type="button" id="calculateOthers">Calculate Others Score</button>
                     </div>
-
+                    <div>
+                        <button id="calculateOthers">Calculate Others Score</button>
+                        <p>Others Score: <span id="othersScore">0</span></p>
+                    </div>
+                    
+                    <!-- Save button -->
                     <button type="submit">Save All KPAs</button>
                 </form>
             </div>
@@ -168,3 +183,4 @@
     <script src="js/kpa.js" defer></script>
 </body>
 </html>
+
