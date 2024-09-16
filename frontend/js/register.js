@@ -30,7 +30,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             if (role === 'admin') window.location.href = '/frontend/admin.html';
             else window.location.href = '/frontend/dashboard.html';
         } else {
-            alert('Registration failed: ' + result.message);
+            // alert('Registration failed: ' + result.message);
         }
     } catch (error) {
         alert('Error: ' + error.message);

@@ -220,3 +220,37 @@ document.querySelectorAll('.fetch-btn').forEach(button => {
     });
 });
 
+document.getElementById('saveAsPdf').addEventListener('click', async () => {
+    const formData = {
+        feedback: document.getElementById('feedback').value,
+        availability: document.getElementById('availability').value,
+        mentorship: document.getElementById('mentorship').value,
+        innovation: document.getElementById('innovation').value,
+        syllabus: document.getElementById('syllabus').value,
+        curriculum: document.getElementById('curriculum').value,
+        objectives: document.getElementById('objectives').value,
+        teachingScore: document.getElementById('teachingScore').textContent,
+        // Add other KPA data here
+    };
+
+    const response = await fetch(`${url}/api/pdf/generatePdf`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'kpa-report.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+    } else {
+        alert('Failed to generate PDF');
+    }
+});
+

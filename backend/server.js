@@ -7,6 +7,7 @@ const aiReviewRoutes = require('./routes/aiReviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const pdfRoutes = require('./routes/pdfRoutes');
 const { dbConnection } = require('./config/db');
 
 // Initialize the app
@@ -27,6 +28,7 @@ app.use('/api/kpa', kpaRoutes);
 app.use('/api/collaborate', collaborateRoutes);
 app.use('/api/ai-review', aiReviewRoutes);
 app.use('/api/users',userRoutes);
+app.use('/api/pdf',pdfRoutes);
 
 // Start server
 app.listen(PORT, () => {
