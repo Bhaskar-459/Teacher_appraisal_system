@@ -65,7 +65,8 @@ exports.getKPA = async (req, res) => {
 exports.getAllKPA = async (req, res) => {
     try {
         const kpa = await KPA.find().populate('teacherId'); // Adjust fields as per your User schema
-        // console.log(kpa);
+        
+        // Check if KPA data exists
         if (!kpa || kpa.length === 0) {
             return res.status(404).json({ message: 'KPA data not found' });
         }
@@ -83,12 +84,13 @@ exports.getAllKPA = async (req, res) => {
             };
         });
 
-        // Send the KPA data
-        res.status(200).json({ kpaData });
+        // Send the array of KPA data as the response
+        res.status(200).json(kpaData);
     } catch (error) {
         console.error('Error fetching KPA data:', error);
         res.status(500).json({ message: 'Error fetching KPA data', error });
     }
 };
+
 
 
