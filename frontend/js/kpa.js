@@ -202,3 +202,21 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('othersScore').textContent = totalOthersScore.toFixed(2);
     });
 });
+
+document.querySelectorAll('.fetch-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const target = document.getElementById(this.getAttribute('data-target'));
+        const status = document.getElementById(`${this.getAttribute('data-target')}Status`);
+
+        // Show fetching status
+        status.textContent = 'Fetching from LMS...';
+        
+        // Simulate delay and then fill with random value
+        setTimeout(() => {
+            const randomScore = Math.floor(Math.random() * 4) + 7; // Generates a number between 7-10
+            target.value = randomScore;
+            status.textContent = ''; // Clear fetching status after completion
+        }, 2000); // 2 second delay
+    });
+});
+
