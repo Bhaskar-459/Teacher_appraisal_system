@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin KPA Table</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Teachers' KPA Data</h1>
+        <!-- Search by Teacher ID -->
+        <div class="mb-3">
+            <label for="searchTeacherId" class="form-label">Search by Teacher ID:</label>
+            <input type="text" class="form-control" id="searchTeacherId" placeholder="Enter Teacher ID">
+        </div>
+
+        <!-- Bootstrap Table -->
+        <table class="table table-striped table-bordered" id="kpaTable">
+            <thead>
+                <tr>
+                    <th scope="col" data-sort="teacherId">Teacher ID</th>
+                    <th scope="col" data-sort="teacherName">Teacher Name</th>
+                    <th scope="col" data-sort="teaching">Teaching (Score)</th>
+                    <th scope="col" data-sort="professionalDevelopment">Professional Development (Score)</th>
+                    <th scope="col" data-sort="administrativeSupport">Administrative Support (Score)</th>
+                    <th scope="col" data-sort="others">Others (Score)</th>
+                    <th scope="col" data-sort="finalScore">Final Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be appended here via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS and Sortable table script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let url = config.API_URL;
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchTeacherId');
+            const kpaTableBody = document.querySelector('#kpaTable tbody');
+            let kpaData = [];
+
+            // Fetch KPA Data from the backend API
+            const fetchKPAData = async () => {
+                try {
+                    const response = await fetch(`${url}/api/kpa/getAllKPA`); // Adjust the API endpoint as needed
+                    const data = await response.json();
+                    kpaData = data.kpaData;
+                    displayTableData(kpaData);
+                } catch (error) {
+                    console.error('Error fetching KPA data:', error);
+                }
+            };
+
+            // Display the table data
+            const displayTableData = (data) => {
+                kpaTableBody.innerHTML = '';
+                data.forEach(item => {
+                    const row = `
+                        <tr>
+                            <td>${item.teacherId}</td>
+                            <td>${item.teacherName}</td>
+                            <td>${item.teaching}</td>
+                            <td>${item.professionalDevelopment}</td>
+                            <td>${item.administrativeSupport}</td>
+                            <td>${item.others}</td>
+                            <td>${item.finalScore}</td>
+                        </tr>
+                    `;
+                    kpaTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            };
+
+            // Search functionality based on Teacher ID
+            searchInput.addEventListener('input', (e) => {
+                const searchValue = e.target.value.toLowerCase();
+                const filteredData = kpaData.filter(item => 
+                    item.teacherId.toString().toLowerCase().includes(searchValue)
+                );
+                displayTableData(filteredData);
+            });
+
+            // Fetch data on page load
+            fetchKPAData();
+        });
+    </script>
+</body>
+</html>

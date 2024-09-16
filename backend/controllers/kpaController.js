@@ -60,3 +60,35 @@ exports.getKPA = async (req, res) => {
         res.status(500).json({ message: 'Error fetching KPA', error });
     }
 };
+
+// Fetch all KPA Data
+exports.getAllKPA = async (req, res) => {
+    try {
+        const kpa = await KPA.find().populate('teacherId'); // Adjust fields as per your User schema
+        // console.log(kpa);
+        if (!kpa || kpa.length === 0) {
+            return res.status(404).json({ message: 'KPA data not found' });
+        }
+
+        // Format the response with teacher and KPA data
+        const kpaData = kpa.map(item => {
+            return {
+                teacherId: item.teacherId.institutionId, // Use institutionId as teacher ID
+                teacherName: item.teacherId.username,
+                teaching: item.teaching.averageScore || 0,
+                professionalDevelopment: item.professionalDevelopment.score || 0,
+                administrativeSupport: item.administrativeSupport.score || 0,
+                others: item.others.averageScore || 0,
+                finalScore: item.finalScore || 0
+            };
+        });
+
+        // Send the KPA data
+        res.status(200).json({ kpaData });
+    } catch (error) {
+        console.error('Error fetching KPA data:', error);
+        res.status(500).json({ message: 'Error fetching KPA data', error });
+    }
+};
+
+

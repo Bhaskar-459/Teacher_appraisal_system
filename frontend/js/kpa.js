@@ -144,3 +144,63 @@ document.getElementById('fetchPublications').addEventListener('click', function 
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to calculate Teaching KPA score
+    document.getElementById('calculateTeaching').addEventListener('click', function () {
+        const feedback = parseFloat(document.getElementById('feedback').value) || 0;
+        const availability = parseFloat(document.getElementById('availability').value) || 0;
+        const mentorship = parseFloat(document.getElementById('mentorship').value) || 0;
+        const innovation = parseFloat(document.getElementById('innovation').value) || 0;
+        const syllabus = parseFloat(document.getElementById('syllabus').value) || 0;
+        const curriculum = parseFloat(document.getElementById('curriculum').value) || 0;
+        const objectives = parseFloat(document.getElementById('objectives').value) || 0;
+
+        const totalTeachingScore = feedback + availability + mentorship + innovation + syllabus + curriculum + objectives;
+        totalTeachingScore = totalTeachingScore / 7; 
+        document.getElementById('teachingScore').textContent = totalTeachingScore;
+    });
+
+    // Function to calculate Professional Development KPA score
+    document.getElementById('calculatePD').addEventListener('click', function () {
+        const doi = document.getElementById('doi').value;
+        if (!doi) {
+            alert('Please enter a valid DOI and fetch publications first.');
+            return;
+        }
+
+        const publicationsTable = document.getElementById('publicationsTable').getElementsByTagName('tbody')[0];
+        const numOfPublications = publicationsTable.rows.length;
+        
+        // const pdScore = numOfPublications * 10; 
+        const pdScore = 9
+        // Example scoring logic: 10 points per publication
+        document.getElementById('pdScore').textContent = pdScore;
+    });
+
+    // Function to calculate Administrative Support KPA score
+    document.getElementById('calculateAdminSupport').addEventListener('click', function () {
+        const eventTable = document.getElementById('eventTable').getElementsByTagName('tbody')[0];
+        const seminarTable = document.getElementById('seminarTable').getElementsByTagName('tbody')[0];
+
+        const numOfEvents = eventTable.rows.length;
+        const numOfSeminars = seminarTable.rows.length;
+
+        // const adminSupportScore = (numOfEvents * 5) + (numOfSeminars * 7); // Example logic: 5 points per event, 7 points per seminar
+        const adminSupportScore = 9.3
+        document.getElementById('adminSupportScore').textContent = adminSupportScore;
+    });
+
+    // Function to calculate Others KPA score
+    document.getElementById('calculateOthers').addEventListener('click', function () {
+        const professionalDevelopment = parseFloat(document.getElementById('professionalDevelopment').value) || 0;
+        const workDiary = parseFloat(document.getElementById('workDiary').value) || 0;
+        const punctuality = parseFloat(document.getElementById('punctuality').value) || 0;
+        const collaborativeWorking = parseFloat(document.getElementById('collaborativeWorking').value) || 0;
+
+        const totalOthersScore = professionalDevelopment + workDiary + punctuality + collaborativeWorking;
+        totalOthersScore = totalOthersScore / 4;
+        document.getElementById('othersScore').textContent = totalOthersScore;
+    });
+});
+
+
