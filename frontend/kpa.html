@@ -1,186 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPA Form</title>
-    <link rel="stylesheet" href="css/kpa.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <script src="config.js" defer></script>
-</head>
-<body>
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="menu-toggle" id="menuToggle">
-                <span>&#9776;</span>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>KPA Form</title>
+        <link rel="stylesheet" href="css/kpa.css">
+        <link rel="stylesheet" href="css/dashboard.css">
+        <script src="config.js" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="menu-toggle" id="menuToggle">
+                    <span>&#9776;</span>
+                </div>
+                <div class="sidebar-menu" id="sidebarMenu">
+                    <ul>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="kpa.html">KPA</a></li>
+                        <li><a href="collaborate.html">Collaboration</a></li>
+                        <li><a href="ai-review.html">AI Review</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="sidebar-menu" id="sidebarMenu">
-                <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="kpa.html">KPA</a></li>
-                    <li><a href="collaborate.html">Collaboration</a></li>
-                    <li><a href="ai-review.html">AI Review</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="main-content">
-            <section class="user-info" id="userInfo">
-                <span class="username"></span>
-                <span class="role"></span>
-                <span class="institutionId"></span>
-            </section>
-            <div class="form-container">
-                <h2>Key Performance Areas (KPA)</h2>
-                <form id="kpaForm">
-                    <!-- KPA 1: Teaching -->
-                    <h3>Teaching KPA</h3>
-                    <div class="input-group">
-                        <label for="feedback">Student Feedback</label>
-                        <input type="number" id="feedback" placeholder="Enter Feedback Score" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="availability">Availability</label>
-                        <input type="number" id="availability" placeholder="Enter Availability Score" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="mentorship">Mentorship</label>
-                        <input type="number" id="mentorship" placeholder="Enter Mentorship Score" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="innovation">Innovation</label>
-                        <input type="number" id="innovation" placeholder="Enter Innovation Score" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="syllabus">Syllabus Preparation</label>
-                        <input type="number" id="syllabus" placeholder="Enter Syllabus Score" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="curriculum">Curriculum Design</label>
-                        <input type="number" id="curriculum" placeholder="Enter Curriculum Score" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="objectives">Course Objectives</label>
-                        <input type="number" id="objectives" placeholder="Enter Objectives Score" required>
-                    </div>
-                    <div>
-                        <button id="calculateTeaching">Calculate Teaching Score</button>
-                        <p>Teaching Score: <span id="teachingScore">0</span></p>
-                    </div>
-                    
-                    <!-- KPA 2: Professional Development -->
-                    <h3>Professional Development KPA</h3>
-                    <div class="input-group">
-                        <label for="doi">Enter DOI</label>
-                        <input type="text" id="doi" placeholder="Enter DOI" required>
-                        <button type="button" id="fetchPublications">Fetch Publications</button>
-                    </div>
-                    <div id="publicationsTableContainer" class="table-container">
-                        <h4>Publications and Journals</h4>
-                        <table id="publicationsTable">
-                            <thead>
-                                <tr>
-                                    <th>S.No.</th>
-                                    <th>Name of Publication</th>
-                                    <th>Theme</th>
-                                    <th>Page Number</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Entries will be dynamically added here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div>
-                        <button id="calculatePD">Calculate PD Score</button>
-                        <p>PD Score: <span id="pdScore">0</span></p>
-                    </div>
-                    <!-- KPA 3: Administrative Support -->
-                    <h3>Administrative Support KPA</h3>
-                    <div class="table-container">
-                        <h4>Event Organization</h4>
-                        <table id="eventTable">
-                            <thead>
-                                <tr>
-                                    <th>Name of Event</th>
-                                    <th>Involvement</th>
-                                    <th>Contribution</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Entries can be added by the user -->
-                            </tbody>
-                        </table>
-                        <button type="button" id="addEventRow">Add Event Row</button>
-                    </div>
-                    <div class="table-container">
-                        <h4>Seminar Attended</h4>
-                        <table id="seminarTable">
-                            <thead>
-                                <tr>
-                                    <th>Name of Event</th>
-                                    <th>Theme</th>
-                                    <th>Type</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Entries can be added by the user -->
-                            </tbody>
-                        </table>
-                        <button type="button" id="addSeminarRow">Add Seminar Row</button>
-                    </div>
-                    <div>
-                        <button id="calculateAdminSupport">Calculate Administrative Support Score</button>
-                        <p>Administrative Support Score: <span id="adminSupportScore">0</span></p>
-                    </div>
-                    
+            <div class="main-content">
+                <section class="user-info" id="userInfo">
+                    <span class="username"></span>
+                    <span class="role"></span>
+                    <span class="institutionId"></span>
+                </section>
+                <div class="form-container">
+                    <h2>Key Performance Areas (KPA)</h2>
+                    <form id="kpaForm">
+                        <!-- KPA 1: Teaching -->
+                        <h3>KPA:-1 Teaching</h3>
+                        <div class="input-group">
+                            <label for="feedback">Student Feedback</label>
+                            <input type="number" id="feedback"
+                                placeholder="Enter Feedback Score" required>
+                            <button type="button" class="fetch-btn"
+                                data-target="feedback">Fetch</button>
+                            <span class="fetch-status"
+                                id="feedbackStatus"></span>
+                        </div>
+                        <div class="input-group">
+                            <label for="availability">Availability</label>
+                            <input type="number" id="availability"
+                                placeholder="Enter Availability Score" required>
+                            <button type="button" class="fetch-btn"
+                                data-target="availability">Fetch</button>
+                            <span class="fetch-status"
+                                id="availabilityStatus"></span>
+                        </div>
+                        <div class="input-group">
+                            <label for="mentorship">Mentorship</label>
+                            <input type="number" id="mentorship"
+                                placeholder="Enter Mentorship Score" required>
+                            <button type="button" class="fetch-btn"
+                                data-target="mentorship">Fetch</button>
+                            <span class="fetch-status"
+                                id="mentorshipStatus"></span>
+                        </div>
 
-                    <!-- KPA 4: Others -->
-                    <h3>Others KPA</h3>
-                    <div class="table-container">
-                        <table id="othersTable">
-                            <thead>
-                                <tr>
-                                    <th>Remarks</th>
-                                    <th>Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Professional Development</td>
-                                    <td><input type="number" id="professionalDevelopment" placeholder="Enter Score" required></td>
-                                </tr>
-                                <tr>
-                                    <td>Work Diary</td>
-                                    <td><input type="number" id="workDiary" placeholder="Enter Score" required></td>
-                                </tr>
-                                <tr>
-                                    <td>Punctuality</td>
-                                    <td><input type="number" id="punctuality" placeholder="Enter Score" required></td>
-                                </tr>
-                                <tr>
-                                    <td>Collaborative Working</td>
-                                    <td><input type="number" id="collaborativeWorking" placeholder="Enter Score" required></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <button id="calculateOthers">Calculate Others Score</button>
-                        <p>Others Score: <span id="othersScore">0</span></p>
-                    </div>
-                    
-                    <!-- Save button -->
-                    <button type="submit">Save All KPAs</button>
-                </form>
+                        <div class="input-group">
+                            <label for="innovation">Innovation</label>
+                            <input type="number" id="innovation"
+                                placeholder="Enter Innovation Score" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="syllabus">Syllabus Preparation</label>
+                            <input type="number" id="syllabus"
+                                placeholder="Enter Syllabus Score" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="curriculum">Curriculum Design</label>
+                            <input type="number" id="curriculum"
+                                placeholder="Enter Curriculum Score" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="feedback">Course Objectives</label>
+                            <input type="number" id="objectives"
+                                placeholder="Enter Objectives Score" required>
+                            <button type="button" class="fetch-btn"
+                                data-target="feedback">Fetch</button>
+                            <span class="fetch-status"
+                                id="feedbackStatus"></span>
+                        </div>
+                        <div>
+                            <button id="calculateTeaching">Calculate Teaching
+                                Score</button>
+                            <p>Teaching Score: <span
+                                    id="teachingScore">0</span></p>
+                        </div>
+
+                        <!-- KPA 2: Professional Development -->
+                        <h3>KPA:-2 Professional Development</h3>
+                        <div class="input-group">
+                            <label for="doi">Enter DOI</label>
+                            <input type="text" id="doi" placeholder="Enter DOI"
+                                required>
+                            <button type="button" id="fetchPublications">Fetch
+                                Publications</button>
+                        </div>
+                        <div id="publicationsTableContainer"
+                            class="table-container">
+                            <h4>Publications and Journals</h4>
+                            <table id="publicationsTable">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Name of Publication</th>
+                                        <th>Theme</th>
+                                        <th>Page Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Entries will be dynamically added here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <button id="calculatePD">Calculate Professional Development Score</button>
+                            <p>Professional Development Score: <span id="pdScore">0</span></p>
+                        </div>
+                        <!-- KPA 3: Administrative Support -->
+                        <h3>KPA:-3 Administrative Support</h3>
+                        <div class="table-container">
+                            <h4>Event Organization</h4>
+                            <table id="eventTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name of Event</th>
+                                        <th>Involvement</th>
+                                        <th>Contribution</th>
+                                        <th>Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Entries can be added by the user -->
+                                </tbody>
+                            </table>
+                            <button type="button" id="addEventRow">Add Event
+                                Row</button>
+                        </div>
+                        <div class="table-container">
+                            <h4>Seminar Attended</h4>
+                            <table id="seminarTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name of Event</th>
+                                        <th>Theme</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Entries can be added by the user -->
+                                </tbody>
+                            </table>
+                            <button type="button" id="addSeminarRow">Add Seminar
+                                Row</button>
+                        </div>
+                        <div>
+                            <button id="calculateAdminSupport">Calculate
+                                Administrative Support Score</button>
+                            <p>Administrative Support Score: <span
+                                    id="adminSupportScore">0</span></p>
+                        </div>
+
+                        <!-- KPA 4: Others -->
+                        <h3>KPA:-4 Others</h3>
+                        <div class="table-container">
+                            <table id="othersTable">
+                                <thead>
+                                    <tr>
+                                        <th>Remarks</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Professional Development</td>
+                                        <td><input type="number"
+                                                id="professionalDevelopment"
+                                                placeholder="Enter Score"
+                                                required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Work Diary</td>
+                                        <td><input type="number" id="workDiary"
+                                                placeholder="Enter Score"
+                                                required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Punctuality</td>
+                                        <td><input type="number"
+                                                id="punctuality"
+                                                placeholder="Enter Score"
+                                                required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collaborative Working</td>
+                                        <td><input type="number"
+                                                id="collaborativeWorking"
+                                                placeholder="Enter Score"
+                                                required></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <button id="calculateOthers">Calculate Others
+                                Score</button>
+                            <p>Others Score: <span id="othersScore">0</span></p>
+                        </div>
+
+                        <!-- Save button -->
+                        <button type="submit">Save All KPAs</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <script src="js/dashboard.js" defer></script>
-    <script src="js/kpa.js" defer></script>
-</body>
+        <script src="js/dashboard.js" defer></script>
+        <script src="js/kpa.js" defer></script>
+    </body>
 </html>
-
