@@ -222,35 +222,98 @@ document.querySelectorAll('.fetch-btn').forEach(button => {
 
 document.getElementById('saveAsPdf').addEventListener('click', async () => {
     const formData = {
-        feedback: document.getElementById('feedback').value,
-        availability: document.getElementById('availability').value,
-        mentorship: document.getElementById('mentorship').value,
-        innovation: document.getElementById('innovation').value,
-        syllabus: document.getElementById('syllabus').value,
-        curriculum: document.getElementById('curriculum').value,
-        objectives: document.getElementById('objectives').value,
-        teachingScore: document.getElementById('teachingScore').textContent,
-        // Add other KPA data here
+        // KPA 1: Teaching
+        teaching: {
+            feedback: document.getElementById('feedback').value,
+            availability: document.getElementById('availability').value,
+            mentorship: document.getElementById('mentorship').value,
+            innovation: document.getElementById('innovation').value,
+            syllabus: document.getElementById('syllabus').value,
+            curriculum: document.getElementById('curriculum').value,
+            objectives: document.getElementById('objectives').value,
+            teachingScore: document.getElementById('teachingScore').textContent
+        },
+        // KPA 2: Professional Development
+        professionalDevelopment: {
+            doi: document.getElementById('doi').value,
+            publications: [],  // Will be populated with publication details
+            pdScore: document.getElementById('pdScore').textContent
+        },
+        // KPA 3: Administrative Support
+        administrativeSupport: {
+            events: [],  // Will be populated with event details
+            seminars: [],  // Will be populated with seminar details
+            adminSupportScore: document.getElementById('adminSupportScore').textContent
+        },
+        // KPA 4: Others
+        others: {
+            professionalDevelopment: document.getElementById('professionalDevelopment').value,
+            workDiary: document.getElementById('workDiary').value,
+            punctuality: document.getElementById('punctuality').value,
+            collaborativeWorking: document.getElementById('collaborativeWorking').value,
+            othersScore: document.getElementById('othersScore').textContent
+        }
     };
 
-    const response = await fetch(`${url}/api/pdf/generatePdf`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+    // Fetch publications table data
+    const publicationsTable = document.querySelectorAll('#publicationsTable tbody tr');
+    publicationsTable.forEach((row) => {
+        const publication = {
+            name: row.cells[1].textContent,
+            theme: row.cells[2].textContent,
+            pageNumber: row.cells[3].textContent,
+        };
+        formData.professionalDevelopment.publications.push(publication);
     });
 
-    if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'kpa-report.pdf';
-        a.click();
-        URL.revokeObjectURL(url);
-    } else {
-        alert('Failed to generate PDF');
+    // Fetch events table data
+    const eventTable = document.querySelectorAll('#eventTable tbody tr');
+    eventTable.forEach((row) => {
+        const event = {
+            name: row.cells[0].textContent,
+            involvement: row.cells[1].textContent,
+            contribution: row.cells[2].textContent,
+            duration: row.cells[3].textContent,
+        };
+        formData.administrativeSupport.events.push(event);
+    });
+
+    // Fetch seminars table data
+    const seminarTable = document.querySelectorAll('#seminarTable tbody tr');
+    seminarTable.forEach((row) => {
+        const seminar = {
+            name: row.cells[0].textContent,
+            theme: row.cells[1].textContent,
+            type: row.cells[2].textContent,
+            date: row.cells[3].textContent,
+        };
+        formData.administrativeSupport.seminars.push(seminar);
+    });
+
+    // Send the data to the backend to generate the PDF
+    try {
+        const response = await fetch(`${url}/api/pdf/generatePdf`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'kpa-report.pdf';
+            a.click();
+            URL.revokeObjectURL(url);
+        } else {
+            alert('Failed to generate PDF');
+        }
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('An error occurred while generating the PDF');
     }
 });
 
