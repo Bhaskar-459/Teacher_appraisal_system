@@ -25,7 +25,7 @@ if (kpaForm) {
             const pageNumber = row.cells[3].textContent;
             publications.push({ name, theme, pageNumber });
         });
-
+        
         // KPA 3: Administrative Support Data (Events and Seminars)
         const events = [];
         const eventRows = document.querySelectorAll('#eventTable tbody tr');
@@ -69,11 +69,13 @@ if (kpaForm) {
             },
             professionalDevelopment: {
                 doi,
-                publications
+                publications,
+                score:9
             },
             administrativeSupport: {
                 events,
-                seminars
+                seminars,
+                score:9.3
             },
             others: {
                 professionalDevelopment,
@@ -81,7 +83,8 @@ if (kpaForm) {
                 punctuality,
                 collaborativeWorking,
                 averageScore: document.getElementById('othersScore').textContent
-            }
+            },
+            finalScore: document.getElementById('finalScore').textContent
         };
 
         try {
@@ -221,78 +224,10 @@ document.querySelectorAll('.fetch-btn').forEach(button => {
 });
 
 document.getElementById('saveAsPdf').addEventListener('click', async () => {
-    const formData = {
-        // KPA 1: Teaching
-        teaching: {
-            feedback: document.getElementById('feedback').value,
-            availability: document.getElementById('availability').value,
-            mentorship: document.getElementById('mentorship').value,
-            innovation: document.getElementById('innovation').value,
-            syllabus: document.getElementById('syllabus').value,
-            curriculum: document.getElementById('curriculum').value,
-            objectives: document.getElementById('objectives').value,
-            teachingScore: document.getElementById('teachingScore').textContent
-        },
-        // KPA 2: Professional Development
-        professionalDevelopment: {
-            doi: document.getElementById('doi').value,
-            publications: [],  // Will be populated with publication details
-            pdScore: document.getElementById('pdScore').textContent
-        },
-        // KPA 3: Administrative Support
-        administrativeSupport: {
-            events: [],  // Will be populated with event details
-            seminars: [],  // Will be populated with seminar details
-            adminSupportScore: document.getElementById('adminSupportScore').textContent
-        },
-        // KPA 4: Others
-        others: {
-            professionalDevelopment: document.getElementById('professionalDevelopment').value,
-            workDiary: document.getElementById('workDiary').value,
-            punctuality: document.getElementById('punctuality').value,
-            collaborativeWorking: document.getElementById('collaborativeWorking').value,
-            othersScore: document.getElementById('othersScore').textContent
-        }
-    };
-
-    // Fetch publications table data
-    const publicationsTable = document.querySelectorAll('#publicationsTable tbody tr');
-    publicationsTable.forEach((row) => {
-        const publication = {
-            name: row.cells[1].textContent,
-            theme: row.cells[2].textContent,
-            pageNumber: row.cells[3].textContent,
-        };
-        formData.professionalDevelopment.publications.push(publication);
-    });
-
-    // Fetch events table data
-    const eventTable = document.querySelectorAll('#eventTable tbody tr');
-    eventTable.forEach((row) => {
-        const event = {
-            name: row.cells[0].textContent,
-            involvement: row.cells[1].textContent,
-            contribution: row.cells[2].textContent,
-            duration: row.cells[3].textContent,
-        };
-        formData.administrativeSupport.events.push(event);
-    });
-
-    // Fetch seminars table data
-    const seminarTable = document.querySelectorAll('#seminarTable tbody tr');
-    seminarTable.forEach((row) => {
-        const seminar = {
-            name: row.cells[0].textContent,
-            theme: row.cells[1].textContent,
-            type: row.cells[2].textContent,
-            date: row.cells[3].textContent,
-        };
-        formData.administrativeSupport.seminars.push(seminar);
-    });
-
+    let id = localStorage.getItem('userId');
     // Send the data to the backend to generate the PDF
     try {
-        const response = await fetch(`${url}/api/pdf/generatePdf`, {
+        const response = await fetch(`${url}/api/pdf/generatePdf/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
