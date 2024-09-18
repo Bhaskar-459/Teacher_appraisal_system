@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="css/ai-review.css"> <!-- Specific styles for AI Review -->
 </head>
 <body>
+    <div class="loading-screen" id="loadingScreen" style="display: none;">
+        <div class="loading-content">
+            <h2>AI Review loading...</h2>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -26,10 +33,17 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <br>
             <h2>AI Review</h2>
             <p>Analyze and improve your performance using AI insights.</p>
             <button id="startAIReview">Start AI Review</button>
+            
+            <div class="kpa-table-wrapper" id="kpaTableContainer">
+                <!-- KPA Data table will be inserted here -->
+            </div>
+
+            <div class="recommendations" id="recommendations" style="display: none;">
+                <!-- Recommendations will be inserted here -->
+            </div>
         </div>
     </div>
 
