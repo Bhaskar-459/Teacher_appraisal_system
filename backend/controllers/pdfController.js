@@ -101,7 +101,6 @@ exports.generatePDF = asyncHandler(async (req, res) => {
     }
 
     doc.font('Helvetica').fontSize(12).fillColor('black').text(`Score: ${kpa.kpaData.administrativeSupport.administrativeSupportScore}`);
-    doc.addPage(); // Add page break here
     doc.moveDown(1.5);
 
     // KPA 4: Others
