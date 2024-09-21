@@ -4,7 +4,7 @@ let teacherId = localStorage.getItem('institutionId');
 
 function int(value) {
     val = parseFloat(value) || 0;
-    return val.toFixed(2);
+    return val;
 
 
 }
@@ -23,6 +23,7 @@ if (kpaForm) {
         const objectives = document.getElementById('objectives').value;
         let teachingScore = int(feedback) + int(availability) + int(mentorship) + int(innovation) + int(syllabus) + int(curriculum) + int(objectives);
         teachingScore = teachingScore / 7;
+        teachingScore = teachingScore.toFixed(2);
 
         // Professional Development Data
         const doi = document.getElementById('doi').value;
@@ -39,7 +40,7 @@ if (kpaForm) {
         // Administrative Support Data (from tables)
         const events = [];
         const eventRows = document.querySelectorAll('#eventTable tbody tr');
-        console.log(eventRows)
+        // console.log(eventRows)
         eventRows.forEach((row) => {
             const eventName = row.cells[0].querySelector('input').value;
             const involvement = row.cells[1].querySelector('input').value;
@@ -69,6 +70,12 @@ if (kpaForm) {
         const collaborativeWorking = document.getElementById('collaborativeWorking').value;
         let othersScore = int(professionalDevelopment) + int(workDiary) + int(punctuality) + int(collaborativeWorking);
         othersScore = othersScore / 4;
+        othersScore = othersScore.toFixed(2);
+
+        // Final Score Calculation
+        let finalScore = parseFloat(teachingScore) + parseFloat(professionalDevelopmentScore) + parseFloat(administrativeSupportScore) + parseFloat(othersScore);
+        finalScore = finalScore / 4;
+        finalScore = finalScore.toFixed(2);
 
 
         // Create KPA Object
@@ -100,7 +107,7 @@ if (kpaForm) {
                 collaborativeWorking,
                 othersScore
             },
-            finalScore: (teachingScore + professionalDevelopmentScore + administrativeSupportScore + othersScore) / 4
+            finalScore: finalScore
         };
 
         try {
