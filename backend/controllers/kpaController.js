@@ -3,13 +3,13 @@ const User = require("../models/User");
 
 exports.saveAllKpas = async (req, res) => {
   const { teacherId, kpaData } = req.body;
-  let id = parseInt(teacherId);
-  console.log("Received KPA data:", id);
+  let id = teacherId;
+//   console.log("Received KPA data:", id);
 
   try {
     // Find the teacher by their institutionId
     const teacher = await User.findOne({ institutionId: id });
-    console.log("Teacher", teacher);
+    // console.log("Teacher", teacher);
     if (!teacher) {
       return res.status(404).json({ message: "Teacher not found" });
     }
