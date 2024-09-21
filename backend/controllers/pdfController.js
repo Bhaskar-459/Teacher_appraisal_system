@@ -1,6 +1,7 @@
 const PDFDocument = require('pdfkit');
 const asyncHandler = require('express-async-handler');
 const KPA = require('../models/KPA');
+const User = require('../models/User');
 
 exports.generatePDF = asyncHandler(async (req, res) => {
     const doc = new PDFDocument({ margin: 50 });
@@ -16,6 +17,8 @@ exports.generatePDF = asyncHandler(async (req, res) => {
 
     // Fetch details from the database
     const kpa = await KPA.findOne({'teacherId': teacherid}).populate('teacherId');
+    const teacher =  await User.findById(teacherid);
+    console.log(kpa)
     if (!kpa) {
         res.status(404);
         throw new Error('KPA not found');
@@ -26,7 +29,7 @@ exports.generatePDF = asyncHandler(async (req, res) => {
     doc.moveDown(2);
 
     // Teacher information
-    doc.font('Helvetica').fontSize(16).fillColor('black').text(`Teacher: ${kpa.teacherId.username}`, { align: 'left' });
+    doc.font('Helvetica').fontSize(16).fillColor('black').text(`Teacher: ${teacher.username}`, { align: 'left' });
     doc.moveDown(1.5);
 
     // Line separator
@@ -38,29 +41,29 @@ exports.generatePDF = asyncHandler(async (req, res) => {
     doc.moveDown(0.8);
 
     doc.font('Helvetica').fontSize(12).fillColor('black')
-        .text(`Feedback: ${kpa.teaching.feedback}`)
+        .text(`Feedback: ${kpa.kpaData.teaching.feedback}`)
         .moveDown(0.4)
-        .text(`Availability: ${kpa.teaching.availability}`)
+        .text(`Availability: ${kpa.kpaData.teaching.availability}`)
         .moveDown(0.4)
-        .text(`Mentorship: ${kpa.teaching.mentorship}`)
+        .text(`Mentorship: ${kpa.kpaData.teaching.mentorship}`)
         .moveDown(0.4)
-        .text(`Innovation: ${kpa.teaching.innovation}`)
+        .text(`Innovation: ${kpa.kpaData.teaching.innovation}`)
         .moveDown(0.4)
-        .text(`Syllabus: ${kpa.teaching.syllabus}`)
+        .text(`Syllabus: ${kpa.kpaData.teaching.syllabus}`)
         .moveDown(0.4)
-        .text(`Curriculum: ${kpa.teaching.curriculum}`)
+        .text(`Curriculum: ${kpa.kpaData.teaching.curriculum}`)
         .moveDown(0.4)
-        .text(`Objectives: ${kpa.teaching.objectives}`)
+        .text(`Objectives: ${kpa.kpaData.teaching.objectives}`)
         .moveDown(0.4)
-        .text(`Average Score: ${kpa.teaching.averageScore}`);
+        .text(`Average Score: ${kpa.kpaData.teaching.teachingScore}`);
     doc.moveDown(1.5);
 
     // KPA 2: Professional Development
-    if (kpa.professionalDevelopment.publications.length > 0) {
+    if (kpa.kpaData.professionalDevelopment.publications.length > 0) {
         doc.font('Helvetica-Bold').fontSize(16).fillColor('#2b3990').text('KPA 2: Professional Development');
         doc.moveDown(0.8);
 
-        kpa.professionalDevelopment.publications.forEach(pub => {
+        kpa.kpaData.professionalDevelopment.publications.forEach(pub => {
             doc.font('Helvetica').fontSize(12).fillColor('black')
                 .text(`Publication Theme: ${pub.theme}`)
                 .text(`Pages: ${pub.pageNumber}`)
@@ -68,15 +71,15 @@ exports.generatePDF = asyncHandler(async (req, res) => {
         });
     }
 
-    doc.font('Helvetica').fontSize(12).fillColor('black').text(`Score: ${kpa.professionalDevelopment.score}`);
+    doc.font('Helvetica').fontSize(12).fillColor('black').text(`Score: ${kpa.kpaData.professionalDevelopment.professionalDevelopmentScore}`);
     doc.moveDown(1.5);
 
     // KPA 3: Administrative Support / Additional Responsibilities
-    if (kpa.administrativeSupport.events.length > 0 || kpa.administrativeSupport.seminars.length > 0) {
+    if (kpa.kpaData.administrativeSupport.events.length > 0 || kpa.kpaData.administrativeSupport.seminars.length > 0) {
         doc.font('Helvetica-Bold').fontSize(16).fillColor('#2b3990').text('KPA 3: Administrative Support / Additional Responsibilities');
         doc.moveDown(0.8);
 
-        kpa.administrativeSupport.events.forEach((event, index) => {
+        kpa.kpaData.administrativeSupport.events.forEach((event, index) => {
             doc.font('Helvetica').fontSize(12).fillColor('black')
                 .text(`Event ${index + 1}:`)
                 .text(`Event Name: ${event.eventName}`)
@@ -86,7 +89,7 @@ exports.generatePDF = asyncHandler(async (req, res) => {
                 .moveDown(1);
         });
 
-        kpa.administrativeSupport.seminars.forEach((seminar, index) => {
+        kpa.kpaData.administrativeSupport.seminars.forEach((seminar, index) => {
             doc.font('Helvetica').fontSize(12).fillColor('black')
                 .text(`Seminar ${index + 1}:`)
                 .text(`Seminar Name: ${seminar.seminarName}`)
@@ -97,7 +100,7 @@ exports.generatePDF = asyncHandler(async (req, res) => {
         });
     }
 
-    doc.font('Helvetica').fontSize(12).fillColor('black').text(`Score: ${kpa.administrativeSupport.score}`);
+    doc.font('Helvetica').fontSize(12).fillColor('black').text(`Score: ${kpa.kpaData.administrativeSupport.administrativeSupportScore}`);
     doc.addPage(); // Add page break here
     doc.moveDown(1.5);
 
@@ -106,19 +109,19 @@ exports.generatePDF = asyncHandler(async (req, res) => {
     doc.moveDown(0.8);
     
     doc.font('Helvetica').fontSize(12).fillColor('black')
-        .text(`Professional Development: ${kpa.others.professionalDevelopment}`)
+        .text(`Professional Development: ${kpa.kpaData.others.professionalDevelopment}`)
         .moveDown(0.4)
-        .text(`Work Diary: ${kpa.others.workDiary}`)
+        .text(`Work Diary: ${kpa.kpaData.others.workDiary}`)
         .moveDown(0.4)
-        .text(`Punctuality: ${kpa.others.punctuality}`)
+        .text(`Punctuality: ${kpa.kpaData.others.punctuality}`)
         .moveDown(0.4)
-        .text(`Collaborative Working: ${kpa.others.collaborativeWorking}`)
+        .text(`Collaborative Working: ${kpa.kpaData.others.collaborativeWorking}`)
         .moveDown(0.4)
-        .text(`Average Score: ${kpa.others.averageScore}`);
+        .text(`Average Score: ${kpa.kpaData.others.othersScore}`);
     doc.moveDown(1.5);
 
     // Final score with bold text
-    doc.font('Helvetica-Bold').fontSize(16).fillColor('#2b3990').text(`Final Score: ${kpa.finalScore}`);
+    doc.font('Helvetica-Bold').fontSize(16).fillColor('#2b3990').text(`Final Score: ${kpa.kpaData.finalScore}`);
     doc.moveDown(2);
 
     // Footer with date and signature

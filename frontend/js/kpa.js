@@ -2,11 +2,18 @@ const kpaForm = document.getElementById('kpaForm');
 let url = config.API_URL;
 let teacherId = localStorage.getItem('institutionId');
 
+function int(value) {
+    val = parseFloat(value) || 0;
+    return val.toFixed(2);
+
+
+}
+
 if (kpaForm) {
     kpaForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // KPA 1: Teaching KPA Data
+        // Collecting Teaching KPA Data
         const feedback = document.getElementById('feedback').value;
         const availability = document.getElementById('availability').value;
         const mentorship = document.getElementById('mentorship').value;
@@ -14,8 +21,10 @@ if (kpaForm) {
         const syllabus = document.getElementById('syllabus').value;
         const curriculum = document.getElementById('curriculum').value;
         const objectives = document.getElementById('objectives').value;
+        let teachingScore = int(feedback) + int(availability) + int(mentorship) + int(innovation) + int(syllabus) + int(curriculum) + int(objectives);
+        teachingScore = teachingScore / 7;
 
-        // KPA 2: Professional Development Data
+        // Professional Development Data
         const doi = document.getElementById('doi').value;
         const publications = [];
         const publicationsTable = document.querySelectorAll('#publicationsTable tbody tr');
@@ -25,37 +34,44 @@ if (kpaForm) {
             const pageNumber = row.cells[3].textContent;
             publications.push({ name, theme, pageNumber });
         });
-        
-        // KPA 3: Administrative Support Data (Events and Seminars)
+        let professionalDevelopmentScore = 9;
+
+        // Administrative Support Data (from tables)
         const events = [];
         const eventRows = document.querySelectorAll('#eventTable tbody tr');
+        console.log(eventRows)
         eventRows.forEach((row) => {
-            const name = row.cells[0].querySelector('input').value;
+            const eventName = row.cells[0].querySelector('input').value;
             const involvement = row.cells[1].querySelector('input').value;
             const contribution = row.cells[2].querySelector('input').value;
             const duration = row.cells[3].querySelector('input').value;
-            events.push({ name, involvement, contribution, duration });
+            events.push({ eventName, involvement, contribution, duration });
         });
+        
 
         const seminars = [];
         const seminarRows = document.querySelectorAll('#seminarTable tbody tr');
-        if (seminarRows.length !== 0) {
-            seminarRows.forEach((row) => {
-                const name = row.cells[0].querySelector('input').value;
-                const theme = row.cells[1].querySelector('input').value;
-                const type = row.cells[2].querySelector('input').value;
-                const date = row.cells[3].querySelector('input').value;
-                seminars.push({ name, theme, type, date });
-            });
-        };
+        // console.log(seminarRows.row.cells[0].textContent)
+        seminarRows.forEach((row) => {
+            const seminarName = row.cells[0].querySelector('input').value;
+            const theme = row.cells[1].querySelector('input').value;
+            const type = row.cells[2].querySelector('input').value;
+            const date = row.cells[3].querySelector('input').value;
+            seminars.push({ seminarName, theme, type, date });
+        });
+        let administrativeSupportScore = 9.3;
 
-        // KPA 4: Others
+        // console.log(seminars)
+        // Other KPA Data
         const professionalDevelopment = document.getElementById('professionalDevelopment').value;
         const workDiary = document.getElementById('workDiary').value;
         const punctuality = document.getElementById('punctuality').value;
         const collaborativeWorking = document.getElementById('collaborativeWorking').value;
+        let othersScore = int(professionalDevelopment) + int(workDiary) + int(punctuality) + int(collaborativeWorking);
+        othersScore = othersScore / 4;
 
-        // Consolidating all data into a single object
+
+        // Create KPA Object
         const kpaData = {
             teaching: {
                 feedback,
@@ -65,45 +81,45 @@ if (kpaForm) {
                 syllabus,
                 curriculum,
                 objectives,
-                averageScore: document.getElementById('teachingScore').textContent
+                teachingScore
             },
             professionalDevelopment: {
                 doi,
                 publications,
-                score:9
+                professionalDevelopmentScore
             },
             administrativeSupport: {
                 events,
                 seminars,
-                score:9.3
+                administrativeSupportScore
             },
             others: {
                 professionalDevelopment,
                 workDiary,
                 punctuality,
                 collaborativeWorking,
-                averageScore: document.getElementById('othersScore').textContent
+                othersScore
             },
-            finalScore: document.getElementById('finalScore').textContent
+            finalScore: (teachingScore + professionalDevelopmentScore + administrativeSupportScore + othersScore) / 4
         };
 
         try {
-            // Making API request to save all KPA data
             const response = await fetch(`${url}/api/kpa/saveAllKPAs`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ teacherId, kpaData })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({teacherId :teacherId, kpaData:kpaData })
             });
 
-            const data = await response.json();
-            if (data.success) {
-                alert('KPA Data Saved Successfully');
+            if (response.ok) {
+                alert('KPA data saved successfully');
             } else {
-                alert('Error saving KPA data');
+                alert('Failed to save KPA data');
             }
-        } catch (err) {
-            console.error('Error:', err);
-            alert('Failed to save KPA data.');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error saving KPA data');
         }
     });
 }
@@ -232,7 +248,7 @@ document.getElementById('saveAsPdf').addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData),
+            // body: JSON.stringify(formData),
         });
 
         if (response.ok) {

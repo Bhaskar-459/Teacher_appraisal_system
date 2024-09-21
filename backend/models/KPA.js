@@ -1,66 +1,65 @@
 const mongoose = require('mongoose');
 
-// Schema for storing KPA-related data
+const publicationSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    theme: { type: String, required: true },
+    pageNumber: { type: String, required: true }
+});
+
+const eventSchema = new mongoose.Schema({
+    eventName: { type: String, required: true },
+    involvement: { type: String, required: true },
+    contribution: { type: String, required: true },
+    duration: { type: String, required: true }
+});
+
+const seminarSchema = new mongoose.Schema({
+    seminarName: { type: String, required: true },
+    theme: { type: String, required: true },
+    type: { type: String, required: true },
+    date: { type: Date, required: true }
+});
+
+const teachingSchema = new mongoose.Schema({
+    feedback: { type: String, required: true },
+    availability: { type: String, required: true },
+    mentorship: { type: String, required: true },
+    innovation: { type: String, required: true },
+    syllabus: { type: String, required: true },
+    curriculum: { type: String, required: true },
+    objectives: { type: String, required: true },
+    teachingScore:{type:Number}
+});
+
+const professionalDevelopmentSchema = new mongoose.Schema({
+    doi: { type: String, required: true },
+    publications: [publicationSchema],
+    professionalDevelopmentScore:{type:Number}
+});
+
+const administrativeSupportSchema = new mongoose.Schema({
+    events: [eventSchema],
+    seminars: [seminarSchema],
+    administrativeSupportScore:{type:Number}
+});
+
+const othersSchema = new mongoose.Schema({
+    professionalDevelopment: { type: String, required: true },
+    workDiary: { type: String, required: true },
+    punctuality: { type: String, required: true },
+    collaborativeWorking: { type: String, required: true },
+    othersScore:{type:Number}
+});
+
 const kpaSchema = new mongoose.Schema({
-    teacherId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-
-    // KPA 1: Teaching
-    teaching: {
-        feedback: { type: Number, default: 0 },
-        availability: { type: Number, default: 0 },
-        mentorship: { type: Number, default: 0 },
-        innovation: { type: Number, default: 0 },
-        syllabus: { type: Number, default: 0 },
-        curriculum: { type: Number, default: 0 },
-        objectives: { type: Number, default: 0 },
-        averageScore: { type: Number }
-    },
-
-    // KPA 2: Professional Development
-    professionalDevelopment: {
-        publications: [
-            {
-                doi: String,
-                title: String,
-                theme: String,
-                pageNumber: String,
-            }
-        ],
-        score: { type: Number, default: 9 }
-    },
-
-    // KPA 3: Administrative Support / Additional Responsibilities
-    administrativeSupport: {
-        events: [
-            {
-                eventName: String,
-                involvement: String,
-                contribution: String,
-                duration: String
-            }
-        ],
-        seminars: [
-            {
-                seminarName: String,
-                theme: String,
-                type: String,
-                date: Date
-            }
-        ],
-        score: { type: Number, default: 9.3 }
-    },
-
-    // KPA 4: Others
-    others: {
-        professionalDevelopment: { type: Number, default: 0 },
-        workDiary: { type: Number, default: 0 },
-        punctuality: { type: Number, default: 0 },
-        collaborativeWorking: { type: Number, default: 0 },
-        averageScore: { type: Number }
-    },
-
-    // Final score of all KPAs
-    finalScore: { type: Number }
+    teacherId: { type: String, required: true },
+    kpaData: {
+        teaching: teachingSchema,
+        professionalDevelopment: professionalDevelopmentSchema,
+        administrativeSupport: administrativeSupportSchema,
+        others: othersSchema,
+        finalScore:{type:Number}
+    }
 });
 
 module.exports = mongoose.model('KPA', kpaSchema);
