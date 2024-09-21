@@ -1,4 +1,4 @@
-Bhaskar
+Mantri Bhaskar
 Gayatri
 Darshana
 Sai
