@@ -116,17 +116,17 @@ exports.getAllKPA = async (req, res) => {
     if (!kpa || kpa.length === 0) {
       return res.status(404).json({ message: "KPA data not found" });
     }
-
+    // console.log("KPA data", kpa);
     // Format the response with teacher and KPA data
     const kpaData = kpa.map((item) => {
       return {
-        teacherId: item.teacherId.institutionId, // Use institutionId as teacher ID
+        teacherId: item.teacherId.institutionId,
         teacherName: item.teacherId.username,
-        teaching: item.teaching.averageScore || 0,
-        professionalDevelopment: item.professionalDevelopment.score || 0,
-        administrativeSupport: item.administrativeSupport.score || 0,
-        others: item.others.averageScore || 0,
-        finalScore: item.finalScore || 0,
+        teaching: item.kpaData.teaching.teachingScore || 0,
+        professionalDevelopment: item.kpaData.professionalDevelopment.professionalDevelopmentScore || 0,
+        administrativeSupport: item.kpaData.administrativeSupport.administrativeSupportScore || 0,
+        others: item.kpaData.others.othersScore || 0,
+        finalScore: item.kpaData.finalScore || 0,
       };
     });
 

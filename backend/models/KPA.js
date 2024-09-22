@@ -52,7 +52,7 @@ const othersSchema = new mongoose.Schema({
 });
 
 const kpaSchema = new mongoose.Schema({
-    teacherId: { type: String, required: true },
+    teacherId: { type:String, ref: 'User', required: true },
     kpaData: {
         teaching: teachingSchema,
         professionalDevelopment: professionalDevelopmentSchema,
