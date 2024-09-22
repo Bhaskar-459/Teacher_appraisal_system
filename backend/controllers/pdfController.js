@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const KPA = require('../models/KPA');
 const User = require('../models/User');
 
+
 exports.generatePDF = asyncHandler(async (req, res) => {
     const doc = new PDFDocument({ margin: 50 });
     const fileName = 'kpa-report.pdf';
@@ -14,9 +15,9 @@ exports.generatePDF = asyncHandler(async (req, res) => {
     // Pipe the PDF into the response
     doc.pipe(res);
     let teacherid = req.params.id;
-
+    // console.log(teacherid)
     // Fetch details from the database
-    const kpa = await KPA.findOne({'teacherId': teacherid}).populate('teacherId');
+    const kpa = await KPA.findOne({ teacherId: teacherid });
     const teacher =  await User.findById(teacherid);
     console.log(kpa)
     if (!kpa) {
